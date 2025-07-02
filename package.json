@@ -1,0 +1,29 @@
+{
+  "name": "ecommerce-2025",
+  "version": "1.0.0",
+  "description": "ecommerce rest api",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "nawaz",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "braintree": "^3.32.0",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express-formidable": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
+    "morgan": "^1.10.0",
+    "react-helmet": "^6.1.0",
+    "slugify": "^1.6.6"
+  }
+}
