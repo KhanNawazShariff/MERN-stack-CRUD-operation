@@ -13,23 +13,34 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
+      required: false, // Changed
     },
     address: {
       type: String,
-      required: true,
+      required: false, // Changed
     },
     password: {
       type: String,
-      required: true,
+      required: false, // Changed
     },
     answer: {
       type: String,
-      required: true,
+      required: false, // Changed
+    },
+    googleId: {
+      type: String,
     },
     role: {
       type: Number,
       default: 0,
+    },
+    cart: {
+      type: Array,
+      default: [],
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   { timestamps: true }

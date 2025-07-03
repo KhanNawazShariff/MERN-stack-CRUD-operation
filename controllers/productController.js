@@ -5,14 +5,11 @@ import categoryModel from "../models/categoryModel.js";
 import orderModel from "../models/orderModel.js";
 import { gateway } from "../config/braintree.js";
 
+// ========== CREATE PRODUCT ==========
 export const createProductController = async (req, res) => {
   try {
     const { name, description, price, quantity, shipping, category } = req.fields;
     const { photo } = req.files;
-
-    // Debug logs
-    console.log("FIELDS:", req.fields);
-    console.log("FILES:", req.files);
 
     switch (true) {
       case !name:
@@ -35,17 +32,8 @@ export const createProductController = async (req, res) => {
     });
 
     if (photo && photo.path) {
-      try {
-        product.photo.data = fs.readFileSync(photo.path);
-        product.photo.contentType = photo.type;
-      } catch (err) {
-        console.error("Error reading photo file:", err.message);
-        return res.status(500).send({
-          success: false,
-          message: "Failed to read photo file",
-          error: err.message,
-        });
-      }
+      product.photo.data = fs.readFileSync(photo.path);
+      product.photo.contentType = photo.type;
     }
 
     await product.save();
@@ -65,7 +53,6 @@ export const createProductController = async (req, res) => {
   }
 };
 
-
 // ========== GET ALL PRODUCTS ==========
 export const getProductController = async (req, res) => {
   try {
@@ -83,7 +70,6 @@ export const getProductController = async (req, res) => {
       products,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error in getting products",
@@ -106,7 +92,6 @@ export const getSingleProduct = async (req, res) => {
       product,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while getting single product",
@@ -126,7 +111,6 @@ export const productPhotoController = async (req, res) => {
       return res.status(404).send({ error: "No photo found" });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error while getting product photo",
@@ -144,7 +128,6 @@ export const deleteProductController = async (req, res) => {
       message: "Product deleted successfully",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error while deleting product",
@@ -156,20 +139,23 @@ export const deleteProductController = async (req, res) => {
 // ========== UPDATE PRODUCT ==========
 export const updateProductController = async (req, res) => {
   try {
-    const { name, description, price, quantity, shipping } = req.fields;
+    const { name, description, price, quantity, shipping, category } = req.fields;
     const { photo } = req.files;
+
+    console.log("FIELDS:", req.fields);
+    console.log("FILES:", req.files);
 
     switch (true) {
       case !name:
-        return res.status(500).send({ error: "Name is required" });
+        return res.status(400).send({ error: "Name is required" });
       case !description:
-        return res.status(500).send({ error: "Description is required" });
+        return res.status(400).send({ error: "Description is required" });
       case !price:
-        return res.status(500).send({ error: "Price is required" });
+        return res.status(400).send({ error: "Price is required" });
       case !quantity:
-        return res.status(500).send({ error: "Quantity is required" });
+        return res.status(400).send({ error: "Quantity is required" });
       case photo && photo.size > 1000000:
-        return res.status(500).send({ error: "Photo should be less than 1MB" });
+        return res.status(400).send({ error: "Photo should be less than 1MB" });
     }
 
     const product = await productModel.findByIdAndUpdate(
@@ -178,7 +164,11 @@ export const updateProductController = async (req, res) => {
       { new: true }
     );
 
-    if (photo) {
+    if (!product) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+
+    if (photo && photo.path) {
       product.photo.data = fs.readFileSync(photo.path);
       product.photo.contentType = photo.type;
     }
@@ -191,7 +181,7 @@ export const updateProductController = async (req, res) => {
       product,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Update Product Error:", error);
     res.status(500).send({
       success: false,
       message: "Error in updating product",
@@ -207,12 +197,10 @@ export const productFilterController = async (req, res) => {
 
     let args = {};
 
-    // Category filter
     if (checked.length > 0) {
       args.category = { $in: checked };
     }
 
-    // Price filter
     if (radio.length === 2) {
       args.price = { $gte: radio[0], $lte: radio[1] };
     }
@@ -233,7 +221,6 @@ export const productFilterController = async (req, res) => {
   }
 };
 
-
 // ========== PRODUCT COUNT ==========
 export const productCountController = async (req, res) => {
   try {
@@ -243,7 +230,6 @@ export const productCountController = async (req, res) => {
       total,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       message: "Error in product count",
       error,
@@ -270,7 +256,6 @@ export const productListController = async (req, res) => {
       products,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       success: false,
       message: "Error in per page product list",
@@ -295,7 +280,6 @@ export const searchProductController = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       success: false,
       message: "Error in search product",
@@ -315,7 +299,6 @@ export const productCategoryController = async (req, res) => {
       products,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       success: false,
       message: "Error while getting category products",
@@ -338,7 +321,6 @@ export const braintreeTokenController = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({ error });
   }
 };
@@ -376,7 +358,6 @@ export const braintreePaymentController = async (req, res) => {
       }
     );
   } catch (error) {
-    console.log("Payment error:", error);
     res.status(500).send({ success: false, error });
   }
 };
@@ -394,7 +375,6 @@ export const getOrdersController = async (req, res) => {
       orders,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Failed to fetch orders",

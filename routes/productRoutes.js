@@ -10,12 +10,11 @@ import {
   productCountController,
   productListController,
   searchProductController,
-  productCategoryController,
+  productCategoryController, // ✅ For category filtering
   braintreeTokenController,
   braintreePaymentController,
-  getOrdersController   // ✅ Add this line
+  getOrdersController, // ✅ Optional: Orders if needed here
 } from "../controllers/productController.js";
-
 
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
@@ -27,7 +26,6 @@ router.post("/create-product", requireSignIn, isAdmin, formidable(), createProdu
 router.get("/get-product", getProductController);
 router.get("/get-product/:slug", getSingleProduct);
 router.get("/product-photo/:pid", productPhotoController);
-
 router.delete("/delete-product/:pid", requireSignIn, isAdmin, deleteProductController);
 router.put("/update-product/:pid", requireSignIn, isAdmin, formidable(), updateProductController);
 
@@ -41,14 +39,14 @@ router.get("/product-list/:page", productListController);
 // ========== SEARCH ==========
 router.get("/search/:keyword", searchProductController);
 
-// ========== CATEGORY ==========
-router.get("/product-category/:slug", productCategoryController);
+// ========== CATEGORY FILTER ROUTE (✅ FIXED) ==========
+router.get("/category/:slug", productCategoryController);
 
 // ========== BRAINTREE PAYMENT ==========
-router.get("/braintree/token", braintreeTokenController);               // ✅ FIXED
-router.post("/braintree/payment", requireSignIn, braintreePaymentController); // ✅ FIXED
+router.get("/braintree/token", braintreeTokenController);
+router.post("/braintree/payment", requireSignIn, braintreePaymentController);
 
-router.get("/orders", requireSignIn, getOrdersController);
-
+// ========== (Optional) ORDERS for ADMIN/USER ==========
+router.get("/orders", requireSignIn, getOrdersController); // remove if not used here
 
 export default router;

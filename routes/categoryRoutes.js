@@ -1,11 +1,12 @@
 import express from "express";
 import {
-  categoryController,
+  getCategoryController, // ✅ updated here
   createCategoryController,
   deleteCategoryController,
   singleCategoryController,
   updateCategoryController,
 } from "../controllers/categoryController.js";
+
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import categoryModel from "../models/categoryModel.js";
 
@@ -28,7 +29,8 @@ router.put(
 );
 
 //get categoryModel
-router.get("/get-category", categoryController);
+router.get("/get-category", getCategoryController);
+
 
 //single route
 router.get("/single-category/:slug", singleCategoryController);
