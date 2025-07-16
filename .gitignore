@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+
+# Build outputs
+build/
+dist/
+
+# Editor settings
+.vscode/
+.idea/
+
+# Ignore frontend and backend secrets
+client/.env
+server/.env
+
