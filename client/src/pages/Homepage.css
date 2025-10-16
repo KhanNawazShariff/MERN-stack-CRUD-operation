@@ -1,0 +1,203 @@
+/* ======= Global Modern Styles ======= */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #111827;
+    margin: 0;
+    padding: 0;
+}
+
+h2,
+h3,
+h4 {
+    font-weight: 600;
+    color: #111827;
+}
+
+/* ======= Filters Sidebar ======= */
+h4.text-center {
+    color: #6366F1;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+button.btn-danger {
+    background-color: #ef4444;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-danger:hover {
+    background-color: #dc2626;
+}
+
+/* ======= Product Cards ======= */
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card-img-top {
+    height: 220px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.card-text {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ======= Buttons ======= */
+.btn-primary {
+    background-color: #6366F1;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: #4f46e5;
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    border: none;
+    color: #111827;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+}
+
+/* ======= Load More ======= */
+button.btn-warning {
+    background-color: #6366F1;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+button.btn-warning:hover {
+    background-color: #4f46e5;
+}
+
+/* ======= About + Why Choose ======= */
+.container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.card.p-3.shadow-sm {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    transition: box-shadow 0.3s ease;
+}
+
+.card.p-3.shadow-sm:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+}
+
+/* ======= Testimonials ======= */
+.card.p-4.shadow-sm.h-100.text-center {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.card.p-4.shadow-sm.h-100.text-center:hover {
+    transform: translateY(-5px);
+}
+
+.rounded-circle {
+    border: 3px solid #6366F1;
+}
+
+/* ======= Brand Logos ======= */
+.bg-light {
+    background-color: #f3f4f6 !important;
+}
+
+.bg-light img {
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.bg-light img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+/* ======= Newsletter ======= */
+.bg-dark.text-white {
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: white;
+    padding: 3rem 0;
+}
+
+input.form-control {
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 350px;
+}
+
+button.btn-warning {
+    margin-left: 1rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background-color: #6366F1;
+    color: white;
+    font-weight: 500;
+    border: none;
+}
+
+button.btn-warning:hover {
+    background-color: #4f46e5;
+}
+
+/* ======= Instagram Gallery ======= */
+.container .d-flex.overflow-auto img {
+    border-radius: 12px;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.container .d-flex.overflow-auto img:hover {
+    transform: scale(1.05);
+}
