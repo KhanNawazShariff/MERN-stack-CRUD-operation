@@ -78,7 +78,15 @@ export const loginController = async (req, res) => {
       });
     }
 
-    const match = await comparePassword(password, user.password);
+    // ✅ FIX: Ensure password comparison handles empty or invalid values
+    let match = false;
+    try {
+      match = await comparePassword(password || "", user.password);
+    } catch (err) {
+      console.error("Password comparison error:", err);
+      match = false;
+    }
+
     if (!match) {
       return res.status(401).send({
         success: false,

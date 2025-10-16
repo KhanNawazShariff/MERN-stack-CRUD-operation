@@ -67,40 +67,36 @@ export const getAllOrdersController = async (req, res) => {
 // Update order status
 export const updateOrderStatusController = async (req, res) => {
   try {
-    const { orderId } = req.params;
+    const { id } = req.params;
     const { status } = req.body;
+    const order = await orderModel.findByIdAndUpdate(id, { status }, { new: true });
+    res.status(200).json({ success: true, message: "Order status updated", order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error updating order status", error: error.message });
+  }
+};
 
-    if (!status) {
-      return res.status(400).send({
-        success: false,
-        message: "Status is required",
-      });
-    }
 
-    const updatedOrder = await Order.findByIdAndUpdate(
-      orderId,
-      { status },
-      { new: true }
-    ).populate("buyer", "name email");
+// ADMIN DASHBOARD STATS
+export const adminDashboardController = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    if (!updatedOrder) {
-      return res.status(404).send({
-        success: false,
-        message: "Order not found",
-      });
-    }
+    const todayOrders = await orderModel.find({ createdAt: { $gte: today } });
+    const todayRevenue = todayOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
 
-    res.status(200).send({
+    const lowStockProducts = await productModel.find({ stock: { $lt: 5 } });
+
+    res.status(200).json({
       success: true,
-      message: "Order status updated successfully",
-      order: updatedOrder,
+      data: {
+        totalOrders: todayOrders.length,
+        totalRevenue: todayRevenue,
+        lowStock: lowStockProducts.length,
+      },
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).send({
-      success: false,
-      message: "Error updating order status",
-      error,
-    });
+    res.status(500).json({ success: false, message: "Error fetching dashboard stats", error: error.message });
   }
 };

@@ -5,36 +5,27 @@ const orderSchema = new mongoose.Schema(
     products: [
       {
         type: mongoose.ObjectId,
-        ref: "product",
+        ref: "Product",
       },
     ],
-    payment: {
-      method: {
-        type: String,
-        enum: ["Card", "COD"],
-        required: true,
-      },
-      status: {
-        type: String,
-        enum: ["Pending", "Completed"],
-        default: "Pending",
-      },
-      // you can store other payment details here if needed
-    },
-    address: {
-      type: String,
-      required: function () {
-        return this.payment.method === "COD";
-      },
-    },
+    payment: {},
     buyer: {
       type: mongoose.ObjectId,
-      ref: "User",
+      ref: "users",
     },
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
+    // 🆕 assignment-specific fields
+    customerName: String,
+    email: String,
+    contactNumber: String,
+    shippingAddress: String,
     status: {
       type: String,
-      default: "Not process",
-      enum: ["Not process", "Processing", "Shipped", "Delivered", "Cancel"],
+      enum: ["New", "Processing", "Shipped", "Cancelled"],
+      default: "New",
     },
   },
   { timestamps: true }
